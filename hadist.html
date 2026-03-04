@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>TPQ MTA Karanganom 1 - Hadist</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; overflow-x: hidden; }
+        :root { --primary: #059669; --secondary: #10b981; --accent: #14b8a6; --text: #1f2937; --text-light: #6b7280; }
+        body { font-family: 'Poppins', sans-serif; color: var(--text); background: linear-gradient(to bottom, #fff, #f0fdf4); }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        
+        .navbar-desktop { position: sticky; top: 0; z-index: 1000; background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 5px 20px rgba(5, 150, 105, 0.2); padding: 1rem 2rem; display: none; }
+        .navbar-desktop.show { display: block; }
+        .navbar-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .navbar-brand { color: white; font-size: 1.5rem; font-weight: 900; display: flex; align-items: center; gap: 0.8rem; text-decoration: none; }
+        .navbar-brand i { font-size: 1.8rem; }
+        .nav-menu { display: flex; list-style: none; gap: 0.3rem; }
+        .nav-link { color: white; text-decoration: none; padding: 0.7rem 1.2rem; display: block; font-weight: 600; border-radius: 30px; transition: all 0.3s; font-size: 0.95rem; }
+        .nav-link:hover, .nav-link.active { background: white; color: var(--primary); }
+        
+        .navbar-mobile { position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000; background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 -5px 20px rgba(5, 150, 105, 0.2); padding: 0; padding-bottom: max(0px, env(safe-area-inset-bottom)); display: none; }
+        .navbar-mobile.show { display: flex; }
+        .bottom-nav { display: flex; list-style: none; width: 100%; margin: 0; padding: 0; }
+        .bottom-nav-item { flex: 1; padding: 0; }
+        .bottom-nav-link { color: rgba(255,255,255,0.7); text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0.8rem 0.4rem; font-weight: 600; font-size: 0.75rem; transition: all 0.3s; gap: 0.3rem; min-height: 60px; }
+        .bottom-nav-link i { font-size: 1.5rem; }
+        .bottom-nav-link:active, .bottom-nav-link.active { color: white; background: rgba(255,255,255,0.15); }
+        
+        body.has-bottom-nav { padding-bottom: 70px; }
+        
+        .container { max-width: 100%; margin: 0 auto; padding: 0 1rem; }
+        .section { padding: 2.5rem 1rem; }
+        .section-title { font-size: 1.8rem; text-align: center; margin-bottom: 0.5rem; color: var(--primary); position: relative; display: inline-block; width: 100%; }
+        .section-subtitle { text-align: center; color: var(--text-light); font-size: 0.95rem; margin-bottom: 2rem; }
+        .section-title::after { content: ''; position: absolute; width: 40px; height: 3px; background: linear-gradient(90deg, var(--secondary), var(--accent)); bottom: -10px; left: 50%; transform: translateX(-50%); }
+        
+        .search-box { position: relative; margin-bottom: 1.5rem; }
+        .search-box input { width: 100%; padding: 0.8rem 0.8rem 0.8rem 2.5rem; border: 2px solid var(--primary); border-radius: 30px; font-size: 1rem; font-family: 'Poppins', sans-serif; transition: all 0.3s; }
+        .search-box input:focus { outline: none; border-color: var(--secondary); box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1); }
+        .search-box i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 1.1rem; }
+        
+        .hadist-card { background: white; border-left: 3px solid var(--primary); border-radius: 10px; padding: 1.2rem; margin-bottom: 1.2rem; box-shadow: 0 3px 10px rgba(0,0,0,0.08); transition: all 0.3s; }
+        .hadist-card:active { transform: translateX(3px); }
+        .hadist-title { font-size: 1rem; color: var(--primary); margin-bottom: 0.8rem; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+        .hadist-arab { background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--primary); margin: 0.8rem 0; font-size: 1.05rem; line-height: 1.8; text-align: right; font-family: Arial, sans-serif; }
+        .hadist-meaning { background: linear-gradient(135deg, #f0fdf4, #ccfbf1); padding: 1rem; border-radius: 8px; margin: 0.8rem 0; line-height: 1.7; font-style: italic; font-size: 0.9rem; }
+        .hadist-ref { display: inline-block; background: linear-gradient(135deg, var(--secondary), var(--accent)); color: white; padding: 0.4rem 0.8rem; border-radius: 15px; font-size: 0.75rem; font-weight: 600; }
+        
+        .footer { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; text-align: center; padding: 1.5rem; margin-top: 2rem; font-size: 0.9rem; }
+        
+        @media (min-width: 768px) {
+            .navbar-desktop { display: block !important; }
+            .navbar-mobile { display: none !important; }
+            body.has-bottom-nav { padding-bottom: 0; }
+            .section { padding: 3rem 1.5rem; }
+            .section-title { font-size: 2.2rem; }
+            .hadist-card { padding: 1.5rem; }
+            .hadist-arab { font-size: 1.15rem; }
+        }
+        
+        @media (min-width: 1024px) {
+            .navbar-container { max-width: 1200px; padding: 0 2rem; }
+            .section { padding: 4rem 2rem; }
+            .section-title { font-size: 2.8rem; }
+            .container { max-width: 1200px; padding: 0 2rem; }
+            .hadist-card { padding: 2rem; margin-bottom: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar-desktop show">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <i class="fas fa-mosque"></i> TPQ MTA Karanganom 1
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Beranda</a></li>
+                <li><a href="program.html" class="nav-link">Program</a></li>
+                <li><a href="hadist.html" class="nav-link active">Hadist</a></li>
+                <li><a href="quran.html" class="nav-link">Al-Quran</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <nav class="navbar-mobile show">
+        <ul class="bottom-nav">
+            <li class="bottom-nav-item">
+                <a href="index.html" class="bottom-nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Beranda</span>
+                </a>
+            </li>
+            <li class="bottom-nav-item">
+                <a href="program.html" class="bottom-nav-link">
+                    <i class="fas fa-images"></i>
+                    <span>Program</span>
+                </a>
+            </li>
+            <li class="bottom-nav-item">
+                <a href="hadist.html" class="bottom-nav-link active">
+                    <i class="fas fa-book"></i>
+                    <span>Hadist</span>
+                </a>
+            </li>
+            <li class="bottom-nav-item">
+                <a href="quran.html" class="bottom-nav-link">
+                    <i class="fas fa-quran"></i>
+                    <span>Quran</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Hadist Pilihan</h2>
+            <p class="section-subtitle">Kumpulan hadist mulia untuk panduan hidup</p>
+
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="hadistSearch" placeholder="Cari hadist..." onkeyup="filterHadist()">
+            </div>
+
+            <div id="hadistContainer"></div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p style="font-weight: 600;">Semoga bermanfaat untuk semua santri</p>
+        <p>&copy; 2024 TPQ MTA Karanganom 1</p>
+    </footer>
+
+    <script>
+        const hadistData = [
+            { title: "Hadist tentang Ilmu", arab: "عَنْ أَبِي هُرَيْرَةَ، عَنِ النَّبِيِّ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ قَالَ: مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا، سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ", meaning: "Dari Abu Hurairah: Barangsiapa menempuh jalan untuk mencari ilmu, maka Allah memudahkan baginya jalan menuju surga.", reference: "HR. Muslim" },
+            { title: "Hadist tentang Adab", arab: "عَنْ عَبْدِ اللَّهِ بْنِ عُمَرَ قَالَ: قَالَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ: الْكَبِيرُ الْكَبِيرُ أَنْ تَبِرَّ وَالِدَيْكَ", meaning: "Dari Abdullah bin Umar: Rasulullah SAW bersabda: Kebesaran sejati adalah berbuat baik kepada kedua orang tuamu.", reference: "HR. Al-Bukhari" },
+            { title: "Hadist tentang Akhlak", arab: "عَنْ عَائِشَةَ، قَالَتْ: سَأَلْتُ رَسُولَ اللَّهِ: أَيُّ النَّاسِ أَحْسَنُ خُلُقًا؟ قَالَ: أَحْسَنُهُمْ أَخْلَاقًا", meaning: "Dari Aisyah: Saya bertanya kepada Rasulullah, siapa orang terbaik? Beliau menjawab: Orang yang terbaik akhlaknya.", reference: "HR. At-Tirmidzi" },
+            { title: "Hadist tentang Kesabaran", arab: "عَنْ أَبِي سَعِيدٍ الْخُدْرِيِّ: قَالَ النَّبِيُّ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ: مَا أُعْطِيَ أَحَدٌ عَطَاءً خَيْرًا وَأَوْسَعَ مِنَ الصَّبْرِ", meaning: "Dari Abu Said Al-Khudri: Nabi Muhammad SAW bersabda: Tidak ada pemberian yang lebih baik daripada kesabaran.", reference: "HR. Al-Bukhari" }
+        ];
+
+        function renderHadist() {
+            const container = document.getElementById('hadistContainer');
+            container.innerHTML = hadistData.map(h => `
+                <div class="hadist-card">
+                    <div class="hadist-title">${h.title}<span>✨</span></div>
+                    <div class="hadist-arab">${h.arab}</div>
+                    <div class="hadist-meaning">"${h.meaning}"</div>
+                    <span class="hadist-ref">${h.reference}</span>
+                </div>
+            `).join('');
+        }
+
+        function filterHadist() {
+            const search = document.getElementById('hadistSearch').value.toLowerCase();
+            const filtered = hadistData.filter(h => h.title.toLowerCase().includes(search) || h.meaning.toLowerCase().includes(search));
+            const container = document.getElementById('hadistContainer');
+            container.innerHTML = filtered.map(h => `
+                <div class="hadist-card">
+                    <div class="hadist-title">${h.title}<span>✨</span></div>
+                    <div class="hadist-arab">${h.arab}</div>
+                    <div class="hadist-meaning">"${h.meaning}"</div>
+                    <span class="hadist-ref">${h.reference}</span>
+                </div>
+            `).join('');
+        }
+
+        renderHadist();
+
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.nav-link, .bottom-nav-link').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
