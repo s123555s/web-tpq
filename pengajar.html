@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>TPQ MTA Karanganom 1 - Katalog Pengajar</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; overflow-x: hidden; }
+        :root { --primary: #059669; --secondary: #10b981; --accent: #14b8a6; --text: #1f2937; --text-light: #6b7280; }
+        body { font-family: 'Poppins', sans-serif; color: var(--text); background: linear-gradient(to bottom, #fff, #f0fdf4); }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        
+        .navbar { position: sticky; top: 0; z-index: 1000; background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 5px 20px rgba(5, 150, 105, 0.2); padding: 1rem 1rem; }
+        .navbar-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 1rem; }
+        .navbar-brand { color: white; font-size: 1.3rem; font-weight: 900; display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .navbar-brand i { font-size: 1.5rem; }
+        
+        .hamburger { display: flex; flex-direction: column; gap: 0.4rem; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+        .hamburger span { width: 25px; height: 3px; background: white; border-radius: 2px; transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(10px, 10px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+        
+        .nav-menu { position: absolute; top: 100%; right: 1rem; list-style: none; background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); overflow: hidden; display: none; flex-direction: column; min-width: 200px; z-index: 999; }
+        .nav-menu.active { display: flex; }
+        .nav-item { padding: 0; }
+        .nav-link { color: var(--text); text-decoration: none; padding: 1rem 1.5rem; display: block; font-weight: 600; transition: all 0.3s; border-left: 4px solid transparent; }
+        .nav-link:hover, .nav-link.active { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-left-color: var(--primary); color: var(--primary); }
+        
+        @media (min-width: 768px) {
+            .navbar { padding: 1rem 2rem; }
+            .navbar-container { padding: 0 2rem; }
+            .hamburger { display: none; }
+            .nav-menu { position: static; display: flex !important; flex-direction: row; background: none; box-shadow: none; gap: 0.3rem; min-width: auto; }
+            .nav-link { color: white; padding: 0.7rem 1.2rem; border-left: none; border-radius: 30px; }
+            .nav-link:hover, .nav-link.active { background: white; color: var(--primary); border-left-color: transparent; }
+        }
+        
+        .container { max-width: 100%; margin: 0 auto; padding: 0 1rem; }
+        .section { padding: 2.5rem 1rem; }
+        .section-title { font-size: 1.8rem; text-align: center; margin-bottom: 0.5rem; color: var(--primary); position: relative; display: inline-block; width: 100%; }
+        .section-subtitle { text-align: center; color: var(--text-light); font-size: 0.95rem; margin-bottom: 2rem; }
+        .section-title::after { content: ''; position: absolute; width: 40px; height: 3px; background: linear-gradient(90deg, var(--secondary), var(--accent)); bottom: -10px; left: 50%; transform: translateX(-50%); }
+        
+        .teacher-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2rem; }
+        .teacher-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.08); transition: all 0.3s; }
+        .teacher-card:active { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(5, 150, 105, 0.15); }
+        
+        .teacher-image { height: 200px; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; font-size: 4rem; color: rgba(255,255,255,0.8); }
+        .teacher-content { padding: 1.5rem; }
+        .teacher-name { font-size: 1.4rem; color: var(--primary); margin-bottom: 0.3rem; font-weight: 700; }
+        .teacher-role { color: var(--secondary); font-weight: 600; margin-bottom: 0.8rem; font-size: 0.95rem; }
+        .teacher-info { color: var(--text-light); line-height: 1.7; font-size: 0.9rem; margin-bottom: 0.8rem; }
+        .teacher-label { display: inline-block; background: linear-gradient(135deg, #f0fdf4, #dcfce7); color: var(--primary); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem; }
+        
+        .footer { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; text-align: center; padding: 2rem 1rem; margin-top: 2rem; font-size: 0.9rem; position: relative; overflow: hidden; }
+        .footer-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.5rem; opacity: 0.15; font-weight: 700; white-space: nowrap; pointer-events: none; }
+        .footer p { margin: 0.3rem 0; position: relative; z-index: 1; }
+        
+        @media (min-width: 600px) {
+            .section { padding: 3rem 1.5rem; }
+            .section-title { font-size: 2.2rem; }
+            .teacher-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+            .teacher-image { height: 220px; }
+        }
+        
+        @media (min-width: 768px) {
+            .navbar { padding: 1rem 2rem; }
+            .section { padding: 4rem 2rem; }
+            .section-title { font-size: 2.8rem; }
+            .container { max-width: 1200px; padding: 0 2rem; }
+            .teacher-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+            .teacher-image { height: 250px; }
+            .footer { padding: 2rem; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <i class="fas fa-mosque"></i>
+                <span>TPQ MTA</span>
+            </a>
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Beranda</a></li>
+                <li class="nav-item"><a href="program.html" class="nav-link">Program</a></li>
+                <li class="nav-item"><a href="pengajar.html" class="nav-link active">Pengajar</a></li>
+                <li class="nav-item"><a href="hadist.html" class="nav-link">Hadist</a></li>
+                <li class="nav-item"><a href="quran.html" class="nav-link">Al-Quran</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Katalog Pengajar</h2>
+            <p class="section-subtitle">Tim pengajar profesional dan berpengalaman</p>
+
+            <div class="teacher-grid">
+                <div class="teacher-card">
+                    <div class="teacher-image">👨‍🏫</div>
+                    <div class="teacher-content">
+                        <div class="teacher-name">Ustadz Mahmud</div>
+                        <div class="teacher-role">Kepala Pengajar & Koordinator</div>
+                        <div class="teacher-label">Credentials: S1 Pendidikan Islam</div>
+                        <div class="teacher-info">Spesialisasi: Al-Quran & Tajweed. Berpengalaman mengajar dengan metode pembelajaran yang interaktif dan menyenangkan.</div>
+                    </div>
+                </div>
+
+                <div class="teacher-card">
+                    <div class="teacher-image">👩‍🏫</div>
+                    <div class="teacher-content">
+                        <div class="teacher-name">Ustadzah Zahra</div>
+                        <div class="teacher-role">Pengajar Hafalan</div>
+                        <div class="teacher-label">Credentials: S1 Al-Quran & Hadist</div>
+                        <div class="teacher-info">Spesialisasi: Hafalan Al-Quran & Murotal. Ahli dalam membimbing santri dengan berbagai metode hafalan yang terbukti efektif.</div>
+                    </div>
+                </div>
+
+                <div class="teacher-card">
+                    <div class="teacher-image">👨‍🏫</div>
+                    <div class="teacher-content">
+                        <div class="teacher-name">Ustadz Hanafi</div>
+                        <div class="teacher-role">Pengajar Akhlak & Fiqih</div>
+                        <div class="teacher-label">Credentials: S2 Studi Islam</div>
+                        <div class="teacher-info">Spesialisasi: Akhlak Islami & Fiqih Terapan. Fokus pada pembentukan karakter santri melalui pembelajaran yang integratif.</div>
+                    </div>
+                </div>
+
+                <div class="teacher-card">
+                    <div class="teacher-image">👩‍🏫</div>
+                    <div class="teacher-content">
+                        <div class="teacher-name">Ustadzah Azizah</div>
+                        <div class="teacher-role">Pengajar Dasar Al-Quran</div>
+                        <div class="teacher-label">Credentials: Diploma Qiraat</div>
+                        <div class="teacher-info">Spesialisasi: Iqra & Dasar Membaca Al-Quran. Berpengalaman mengajar anak-anak usia dini dengan pendekatan yang lembut dan sabar.</div>
+                    </div>
+                </div>
+
+                <div class="teacher-card">
+                    <div class="teacher-image">👨‍🏫</div>
+                    <div class="teacher-content">
+                        <div class="teacher-name">Ustadz Bagus</div>
+                        <div class="teacher-role">Pengajar Tajweed Lanjutan</div>
+                        <div class="teacher-label">Credentials: S1 Bahasa Arab</div>
+                        <div class="teacher-info">Spesialisasi: Tajweed Mendalam & Hukum Bacaan. Ahli dalam memastikan santri membaca Al-Quran dengan kaidah yang sempurna.</div>
+                    </div>
+                </div>
+
+                <div class="teacher-card">
+                    <div class="teacher-image">👩‍🏫</div>
+                    <div class="teacher-content">
+                        <div class="teacher-name">Ustadzah Umi</div>
+                        <div class="teacher-role">Pengajar Doa & Dzikir</div>
+                        <div class="teacher-label">Credentials: Pesantren Tradisional</div>
+                        <div class="teacher-info">Spesialisasi: Doa Sehari-hari & Dzikir. Memiliki keahlian dalam mengajarkan amalan-amalan ibadah yang mudah dipahami santri.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-watermark">Brizky - MTA Karanganom 1</div>
+        <p style="font-weight: 600;">Semoga bermanfaat untuk semua santri</p>
+        <p>&copy; 2026 Brizky | TPQ MTA Karanganom 1</p>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPage) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar')) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
