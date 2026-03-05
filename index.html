@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>TPQ MTA Karanganom 1 - Beranda</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; overflow-x: hidden; }
+        :root { --primary: #059669; --secondary: #10b981; --accent: #14b8a6; --text: #1f2937; --text-light: #6b7280; }
+        body { font-family: 'Poppins', sans-serif; color: var(--text); background: linear-gradient(to bottom, #fff, #f0fdf4); }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        
+        /* NAVBAR */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 5px 20px rgba(5, 150, 105, 0.2);
+            padding: 1rem 1rem;
+        }
+        
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+        
+        .navbar-brand {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .navbar-brand i { font-size: 1.5rem; }
+        
+        /* HAMBURGER MENU */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+        
+        /* DROPDOWN MENU */
+        .nav-menu {
+            position: absolute;
+            top: 100%;
+            right: 1rem;
+            list-style: none;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            min-width: 200px;
+            z-index: 999;
+        }
+        
+        .nav-menu.active {
+            display: flex;
+        }
+        
+        .nav-item {
+            padding: 0;
+        }
+        
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            display: block;
+            font-weight: 600;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-left-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        /* DESKTOP NAV */
+        @media (min-width: 768px) {
+            .navbar {
+                padding: 1rem 2rem;
+            }
+            
+            .navbar-container {
+                padding: 0 2rem;
+            }
+            
+            .hamburger {
+                display: none;
+            }
+            
+            .nav-menu {
+                position: static;
+                display: flex !important;
+                flex-direction: row;
+                background: none;
+                box-shadow: none;
+                gap: 0.3rem;
+                min-width: auto;
+            }
+            
+            .nav-link {
+                color: white;
+                padding: 0.7rem 1.2rem;
+                border-left: none;
+                border-radius: 30px;
+            }
+            
+            .nav-link:hover, .nav-link.active {
+                background: white;
+                color: var(--primary);
+                border-left-color: transparent;
+            }
+        }
+        
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            bottom: -80px;
+            left: -80px;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 100%;
+        }
+        
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .hero .subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            opacity: 0.95;
+        }
+        
+        .hero .tagline {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+        
+        /* CONTAINER & SECTION */
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .section {
+            padding: 2.5rem 1rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        /* ABOUT BOX */
+        .about-box {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .about-box p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 0.8rem;
+            color: var(--text);
+        }
+        
+        .about-box p:last-child { margin-bottom: 0; }
+        
+        /* STATS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(5, 150, 105, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .stat-card:active { transform: translateY(-2px); }
+        
+        .stat-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+        .stat-number { font-size: 2.2rem; font-weight: 900; margin: 0.3rem 0; }
+        .stat-label { font-size: 0.85rem; opacity: 0.9; }
+        
+        /* FEATURES */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-top: 3px solid var(--primary);
+            transition: all 0.3s;
+        }
+        
+        .feature-card:active { transform: translateY(-5px); }
+        
+        .feature-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.7rem;
+            color: var(--primary);
+        }
+        
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+        
+        /* CONTACT */
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-section h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .contact-section > p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .contact-info h4 {
+            margin-bottom: 0.2rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .contact-info p {
+            opacity: 0.95;
+            font-size: 0.85rem;
+        }
+        
+        /* FOOTER */
+        .footer {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            opacity: 0.15;
+            font-weight: 700;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+        
+        .footer p { 
+            margin: 0.3rem 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* TABLET */
+        @media (min-width: 600px) {
+            .section { padding: 3rem 1.5rem; }
+            .section-title { font-size: 2.2rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero .subtitle { font-size: 1.2rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .contact-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        /* DESKTOP */
+        @media (min-width: 768px) {
+            .navbar {
+                padding: 1rem 2rem;
+            }
+            
+            .section { padding: 4rem 2rem; }
+            .section-title { font-size: 2.8rem; }
+            .section-subtitle { font-size: 1.1rem; }
+            .hero { padding: 5rem 2rem; }
+            .hero h1 { font-size: 3.5rem; }
+            .hero .subtitle { font-size: 1.4rem; }
+            .hero .tagline { font-size: 1.05rem; }
+            .container { max-width: 1200px; padding: 0 2rem; }
+            .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 3rem 0; }
+            .features-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2.5rem; }
+            .about-box { padding: 2.5rem; margin-bottom: 3rem; }
+            .about-box p { font-size: 1rem; }
+            .contact-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+            .footer { padding: 2rem; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <i class="fas fa-mosque"></i>
+                <span>TPQ MTA</span>
+            </a>
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="program.html" class="nav-link">Program</a>
+                </li>
+                <li class="nav-item">
+                    <a href="pengajar.html" class="nav-link">Pengajar</a>
+                </li>
+                <li class="nav-item">
+                    <a href="hadist.html" class="nav-link">Hadist</a>
+                </li>
+                <li class="nav-item">
+                    <a href="quran.html" class="nav-link">Al-Quran</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>TPQ MTA Karanganom 1</h1>
+            <p class="subtitle">Taman Pendidikan Quran Terpadu</p>
+            <p class="tagline">Membentuk Generasi Quran Berkarakter</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Tentang Kami</h2>
+            <p class="section-subtitle">Lembaga Pendidikan Islam Terpercaya</p>
+
+            <div class="about-box">
+                <p>TPQ MTA Karanganom 1 adalah lembaga pendidikan Islam yang berkomitmen mengajarkan Al-Quran dan nilai-nilai Islam dengan pendekatan modern dan penuh kasih sayang.</p>
+                <p>Dengan kurikulum terstruktur dan pengajar bersertifikat, kami memastikan setiap santri hafal Al-Quran dan menerapkannya dalam kehidupan sehari-hari.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Santri Aktif</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👨‍🏫</div>
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Pengajar</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Tahun</div>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1.5rem; text-align: center; color: var(--primary); margin: 2rem 0 1.5rem;">Keunggulan Kami</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Kurikulum Lengkap</h3>
+                    <p>Al-Quran, Tajweed, Hadist, dan Akhlak Islam yang terstruktur.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Metode Efektif</h3>
+                    <p>Pembelajaran interaktif untuk semua usia dan kemampuan.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Akhlak Mulia</h3>
+                    <p>Pembentukan karakter Islami yang kokoh dan konsisten.</p>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <h3>Hubungi Kami</h3>
+                <p>Kami siap membantu dengan segala pertanyaan Anda</p>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-info">
+                            <h4>Lokasi</h4>
+                            <p>Jl. Pendidikan No. 123</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-info">
+                            <h4>Telepon</h4>
+                            <p>+62 812-3456-7890</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div class="contact-info">
+                            <h4>Email</h4>
+                            <p>info@tpq-mta.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🕐</div>
+                        <div class="contact-info">
+                            <h4>Jam Operasional</h4>
+                            <p>Sen-Jum: 15:00-18:00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-watermark">Brizky - MTA Karanganom 1</div>
+        <p style="font-weight: 600;">Semoga bermanfaat untuk semua santri</p>
+        <p>&copy; 2026 Brizky | TPQ MTA Karanganom 1</p>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar')) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
